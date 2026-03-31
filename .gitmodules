@@ -1,0 +1,12 @@
+[submodule "bookstore-react-frontend"]
+	path = bookstore-react-frontend
+	url = https://github.com/nimsimethusala/bookstore-react-frontend.git
+[submodule "config-repo"]
+	path = config-repo
+	url = https://github.com/nimsimethusala/config-repo-bookstore.git
+[submodule "platform"]
+	path = platform
+	url = https://github.com/nimsimethusala/bookstore-platform.git
+[submodule "service"]
+	path = service
+	url = https://github.com/nimsimethusala/bookstore-service.git

@@ -11,10 +11,12 @@
         <module name="config-server" />
         <module name="order-service" />
         <module name="book-service" />
-        <module name="file-service" />
         <module name="eureka-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="file-service" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
