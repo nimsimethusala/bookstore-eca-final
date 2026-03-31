@@ -1,0 +1,327 @@
+{
+  "info": {
+    "_postman_id": "bookstore-eca-collection",
+    "name": "Bookstore Microservices - ITS2130 ECA",
+    "description": "Complete Postman collection for the Bookstore microservices project. All requests go through the API Gateway. Change the `baseUrl` variable to your deployed gateway URL.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "API Gateway base URL. Change this to your deployed GCP gateway IP."
+    },
+    {
+      "key": "bookId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string",
+      "description": "Set this after creating an order"
+    },
+    {
+      "key": "fileId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "📖 Book Service",
+      "item": [
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/books", "host": ["{{baseUrl}}"], "path": ["api","v1","books"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"The Great Gatsby\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"isbn\": \"978-0-7432-7356-5\",\n  \"description\": \"A novel about the American dream set in the Jazz Age.\",\n  \"price\": 1500.00,\n  \"stockQuantity\": 50,\n  \"category\": \"Fiction\",\n  \"publisher\": \"Scribner\",\n  \"publishedYear\": 1925\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books", "host": ["{{baseUrl}}"], "path": ["api","v1","books"]}
+          }
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"]}
+          }
+        },
+        {
+          "name": "Get Book by ISBN",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/isbn/978-0-7432-7356-5", "host": ["{{baseUrl}}"], "path": ["api","v1","books","isbn","978-0-7432-7356-5"]}
+          }
+        },
+        {
+          "name": "Search Books by Keyword",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/books/search?keyword=gatsby",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","books","search"],
+              "query": [{"key": "keyword", "value": "gatsby"}]
+            }
+          }
+        },
+        {
+          "name": "Get Books by Category",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/category/Fiction", "host": ["{{baseUrl}}"], "path": ["api","v1","books","category","Fiction"]}
+          }
+        },
+        {
+          "name": "Get Available Books (In Stock)",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/available", "host": ["{{baseUrl}}"], "path": ["api","v1","books","available"]}
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"The Great Gatsby (Updated Edition)\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"isbn\": \"978-0-7432-7356-5\",\n  \"description\": \"Updated description.\",\n  \"price\": 1800.00,\n  \"stockQuantity\": 45,\n  \"category\": \"Classic Fiction\",\n  \"publisher\": \"Scribner\",\n  \"publishedYear\": 1925\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Stock Only",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/books/{{bookId}}/stock?quantity=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","books","{{bookId}}","stock"],
+              "query": [{"key": "quantity", "value": "100"}]
+            }
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"]}
+          }
+        },
+        {
+          "name": "Book Service Health",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/books/health", "host": ["{{baseUrl}}"], "path": ["api","v1","books","health"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛒 Order Service",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/orders", "host": ["{{baseUrl}}"], "path": ["api","v1","orders"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"John Doe\",\n  \"customerEmail\": \"john.doe@example.com\",\n  \"customerPhone\": \"+94771234567\",\n  \"shippingAddress\": \"123 Main Street, Colombo 03, Sri Lanka\",\n  \"notes\": \"Please deliver before 5 PM\",\n  \"items\": [\n    {\n      \"bookId\": 1,\n      \"bookTitle\": \"The Great Gatsby\",\n      \"bookAuthor\": \"F. Scott Fitzgerald\",\n      \"isbn\": \"978-0-7432-7356-5\",\n      \"quantity\": 2,\n      \"unitPrice\": 1500.00\n    },\n    {\n      \"bookId\": 2,\n      \"bookTitle\": \"To Kill a Mockingbird\",\n      \"bookAuthor\": \"Harper Lee\",\n      \"quantity\": 1,\n      \"unitPrice\": 1200.00\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders", "host": ["{{baseUrl}}"], "path": ["api","v1","orders"]}
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","{{orderId}}"]}
+          }
+        },
+        {
+          "name": "Get Orders by Customer Email",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/customer/john.doe@example.com", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","customer","john.doe@example.com"]}
+          }
+        },
+        {
+          "name": "Get Orders by Status - PENDING",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/status/PENDING", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","status","PENDING"]}
+          }
+        },
+        {
+          "name": "Get Orders by Status - CONFIRMED",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/status/CONFIRMED", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","status","CONFIRMED"]}
+          }
+        },
+        {
+          "name": "Update Order Status - CONFIRMED",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/status?status=CONFIRMED",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","orders","{{orderId}}","status"],
+              "query": [{"key": "status", "value": "CONFIRMED"}]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status - SHIPPED",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/status?status=SHIPPED",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","orders","{{orderId}}","status"],
+              "query": [{"key": "status", "value": "SHIPPED"}]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PATCH",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/cancel", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","{{orderId}}","cancel"]}
+          }
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","{{orderId}}"]}
+          }
+        },
+        {
+          "name": "Order Service Health",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/orders/health", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","health"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁 File Service",
+      "item": [
+        {
+          "name": "Upload File to GCP",
+          "request": {
+            "method": "POST",
+            "url": {"raw": "{{baseUrl}}/api/v1/files/upload", "host": ["{{baseUrl}}"], "path": ["api","v1","files","upload"]},
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "file", "type": "file", "src": "", "description": "Select any file to upload"},
+                {"key": "description", "value": "Book cover image for The Great Gatsby", "type": "text"},
+                {"key": "category", "value": "book-cover", "type": "text"},
+                {"key": "referenceId", "value": "1", "type": "text"},
+                {"key": "referenceType", "value": "BOOK", "type": "text"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Files",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/files", "host": ["{{baseUrl}}"], "path": ["api","v1","files"]}
+          }
+        },
+        {
+          "name": "Get File by ID",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/files/{{fileId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","files","{{fileId}}"]}
+          }
+        },
+        {
+          "name": "Get Files by Category",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/files/category/book-cover", "host": ["{{baseUrl}}"], "path": ["api","v1","files","category","book-cover"]}
+          }
+        },
+        {
+          "name": "Get Files by Reference (Book ID)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/files/reference?referenceId=1&referenceType=BOOK",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","files","reference"],
+              "query": [
+                {"key": "referenceId", "value": "1"},
+                {"key": "referenceType", "value": "BOOK"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete File",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{baseUrl}}/api/v1/files/{{fileId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","files","{{fileId}}"]}
+          }
+        },
+        {
+          "name": "File Service Health",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/api/v1/files/health", "host": ["{{baseUrl}}"], "path": ["api","v1","files","health"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "❤️ Health & Platform",
+      "item": [
+        {
+          "name": "All Services Health Check",
+          "item": [
+            {
+              "name": "Book Service Health",
+              "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/api/v1/books/health", "host": ["{{baseUrl}}"], "path": ["api","v1","books","health"]}}
+            },
+            {
+              "name": "Order Service Health",
+              "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/api/v1/orders/health", "host": ["{{baseUrl}}"], "path": ["api","v1","orders","health"]}}
+            },
+            {
+              "name": "File Service Health",
+              "request": {"method": "GET", "url": {"raw": "{{baseUrl}}/api/v1/files/health", "host": ["{{baseUrl}}"], "path": ["api","v1","files","health"]}}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
